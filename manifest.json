@@ -1,0 +1,29 @@
+{
+  "background": { "service_worker": "src/sw.ts" },
+  "permissions": ["storage"],
+  "optional_host_permissions": ["http://localhost:3000/*", "https://www.google.com/*"],
+
+  "host_permissions": ["http://localhost:3001/*", "*://api.mixpanel.com/*"],
+  "content_scripts": [
+    {
+      "js": ["src/content.ts"],
+      "matches": ["http://localhost:3000/*"]
+    }
+  ],
+  "manifest_version": 3,
+  "icons": {
+    "16": "src/assets/icon.png",
+    "32": "src/assets/icon.png",
+    "48": "src/assets/icon.png",
+    "128": "src/assets/icon.png"
+  },
+  "web_accessible_resources": [
+    {
+      "matches": ["<all_urls>"],
+      "resources": [
+        "src/pages/onboarding/index.html",
+        "src/css/styling.css"
+      ]
+    }
+  ]
+}
