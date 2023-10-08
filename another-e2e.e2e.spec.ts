@@ -1,18 +1,24 @@
 import puppeteer, { Page, Browser } from 'puppeteer';
+import 'dotenv/config'
 
 let browser: Browser;
 let page: Page;
+
+// convert 'true' or 'false' to boolean
+const useHeadless: boolean = process?.env?.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD === 'true' ? false : true
 
 const puppeteerArgs = [
   `--disable-extensions-except=${__dirname}/dist`,
   `--load-extension=${__dirname}/dist`,
   '--disable-features=DialMediaRouteProvider',
+  '--no-sandbox',
 ];
 
 beforeAll(async () => {
   browser = await puppeteer.launch({
-    headless: 'new', // Set to true for headless mode
-    slowMo: 200,
+    headless: useHeadless ? 'new' : false, // Set to true for headless mode
+    slowMo: 20,
+    executablePath: useHeadless === false ? process.env.PUPPETEER_EXEC_PATH : undefined,
     args: puppeteerArgs,
     devtools: true,
   });
@@ -25,7 +31,8 @@ afterAll(async () => {
 });
 
 // helper function to get extension id
-const getExtensionId = async (browser:Browser) => {
+const getExtensionId = async (browser: Browser) => {
+  
   const targets = await browser?.targets()
 
   if (!browser || !targets) {
@@ -60,6 +67,8 @@ describe('Extensions Tests', () => {
     const manifest = await page.evaluate(() => {
       return JSON.parse(document.querySelector('body')?.innerText || '{}')
     })
+
+    console.log('Manifest: ', manifest)
 
     expect(manifest.manifest_version).toEqual(3)
 

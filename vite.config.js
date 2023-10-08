@@ -38,19 +38,19 @@ export default defineConfig({
       replacements: [
         {
           from: "process.env.NEXT_PUBLIC_SUPABASE_URL",
-          to: JSON.stringify(process.env.NEXT_PUBLIC_SUPABASE_URL),
+          to: JSON.stringify(process?.env?.NEXT_PUBLIC_SUPABASE_URL || ''),
         },
         {
           from: "process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY",
-          to: JSON.stringify(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY),
+          to: JSON.stringify(process?.env?.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''),
         },
         {
           from: "process.env.NODE_ENV_PROD",
-          to: JSON.stringify(process.env.NODE_ENV_PROD),
+          to: JSON.stringify(process?.env?.NODE_ENV_PROD || ''),
         },
         {
           from: "process.env.MIXPANEL_TOKEN",
-          to: JSON.stringify(process.env.MIXPANEL_TOKEN),
+          to: JSON.stringify(process?.env?.MIXPANEL_TOKEN || ''),
         }
       ],
     }),
